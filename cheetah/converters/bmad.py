@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 from typing import Optional, Union
 
-import numpy as np
 import torch
 
 import cheetah
@@ -203,7 +202,7 @@ def convert_element(
                 length=torch.tensor(bmad_parsed["l"]),
                 voltage=torch.tensor(bmad_parsed.get("voltage", 0.0)),
                 phase=torch.tensor(
-                    -np.degrees(bmad_parsed.get("phi0", 0.0) * 2 * np.pi)
+                    -torch.rad2deg(bmad_parsed.get("phi0", 0.0) * 2 * torch.pi)
                 ),
                 frequency=torch.tensor(bmad_parsed["rf_frequency"]),
                 name=name,
@@ -224,8 +223,8 @@ def convert_element(
                         dtype=dtype,
                     ),
                     cheetah.Aperture(
-                        x_max=torch.tensor(bmad_parsed.get("x_limit", np.inf)),
-                        y_max=torch.tensor(bmad_parsed.get("y_limit", np.inf)),
+                        x_max=torch.tensor(bmad_parsed.get("x_limit", torch.inf)),
+                        y_max=torch.tensor(bmad_parsed.get("y_limit", torch.inf)),
                         shape="rectangular",
                         name=name + "_aperture",
                         device=device,
@@ -248,8 +247,8 @@ def convert_element(
                         dtype=dtype,
                     ),
                     cheetah.Aperture(
-                        x_max=torch.tensor(bmad_parsed.get("x_limit", np.inf)),
-                        y_max=torch.tensor(bmad_parsed.get("y_limit", np.inf)),
+                        x_max=torch.tensor(bmad_parsed.get("x_limit", torch.inf)),
+                        y_max=torch.tensor(bmad_parsed.get("y_limit", torch.inf)),
                         shape="elliptical",
                         name=name + "_aperture",
                         device=device,
